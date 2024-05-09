@@ -17,13 +17,13 @@ chart.set_legend(layout="vertical",align="right",verticalAlign="middle")
 
 # Add series directly from DataFrame
 df = pd.DataFrame({'Month': ['January', 'February', 'March'],'Sales': [300, 400, 350],'Expenses': [200, 300, 250]})
-chart.add_series_from_dataframe(dataframe=df, column_name='Sales', series_name='Monthly Sales', color='green', type='column')
-chart.add_series_from_dataframe(dataframe=df, column_name='Expenses', series_name='Monthly Expenses', color='red', type='column')
+chart.add_series_from_dataframe(dataframe=df, column_name='Sales', series_name='Monthly Sales', color='green', type='column',yAxis=1)
+chart.add_series_from_dataframe(dataframe=df, column_name='Expenses', series_name='Monthly Expenses', color='red', type='column',yAxis=2)
 
 series = [
-    Series(name="serie1",colorByPoint=True, data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}]),
-    Series(name="serie2",colorByPoint=True, data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}]),
-    Series(name="serie3",colorByPoint=True, data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}])
+    Series(name="serie1",colorByPoint=True, type="line", data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}]),
+    Series(name="serie2",colorByPoint=True, type="line", data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}]),
+    Series(name="serie3",colorByPoint=True, type="line", data=[{"name":'Chrome',"y":63.06,"drilldown":'Chrome'}])
 ]
 
 for serie in series: 

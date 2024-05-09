@@ -5,9 +5,11 @@ from subtitle import Subtitle
 from series import Series
 from chart import Chart
 from legend import Legend
-from drilldown import Drilldown
+from containers.drilldown import Drilldown
 from plot_options import PlotOptions
 from templates import TEMPLATES
+from xaxis import XAxis
+from yaxis import YAxis
 
 class Highchart:
     def __init__(self):
@@ -19,9 +21,9 @@ class Highchart:
         self._legend = None
         self._drilldown = None
         self._plot_options = None
-
-        # self._x_axis = None
-        # self._y_axis = None
+        self._x_axis = None
+        self._y_axis = None
+        
         # self._z_axis = None
         # self._tooltip = None
         # self._credits = None
@@ -144,6 +146,10 @@ class Highchart:
         else:
             raise TypeError("Chart must be a Chart object or a dictionary of chart properties.")
 
+    def set_x_axis(self,**kwargs):
+        if self._x_axis is None:
+           self._x_axis = XAxis(**kwargs)
+
     def set_legend(self,**kwargs):
         if self._legend is None:
            self._legend = Legend(**kwargs)
@@ -176,7 +182,7 @@ class Highchart:
 
         self._series.append(series)
 
-    def add_series_from_dataframe(self, dataframe, column_name, series_name, **kwargs):
+    def add_series_from_dataframe(self, dataframe, column_name, series_name, drilldown, **kwargs):
         """
         Directly creates and adds a series from a pandas DataFrame to the chart.
 
@@ -192,6 +198,31 @@ class Highchart:
         data = dataframe[column_name].tolist()
         series = Series(name=series_name, data=data, **kwargs)
         self.add_series(series)
+
+    def add_series_from_dataframe(self, dataframe, column_name, series_name, **kwargs):
+        """
+        Directly creates and adds a series from a pandas DataFrame to the chart.
+
+        Args:
+            dataframe (pd.DataFrame): The DataFrame containing the series data.
+            column_name (str): The column in the DataFrame to use as data for the series.
+            series_name (str): The name of the series.
+            **kwargs: Additional keyword arguments for the series (e.g., type, color).
+        """
+        if column_name not in dataframe.columns:
+            raise ValueError(f"Column '{column_name}' does not exist in the DataFrame.")
+        
+        data = dataframe[column_name].tolist()
+
+        series = Series(name=series_name, data=data, **kwargs)
+        
+        self.add_series(series)
+
+    def add_y_axis(self):
+        pass
+
+    def set_x_axis(self):
+        pass
 
     def get_template(self, name: str = None) -> dict:
         """
@@ -247,6 +278,18 @@ class Highchart:
         if 'legend' in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
             self.legend = Legend.from_dict(template['legend'])
+
+        if 'xAxis' in template:
+            # Assumes Subtitle has a from_dict class method or similar functionality
+            self._x_axis = XAxis.from_dict(template['xAxis'])
+
+        if 'yAxis' in template:
+            # Assumes Subtitle has a from_dict class method or similar functionality
+            self._y_axis = YAxis.from_dict(template['yAxis'])
+
+        if 'plotOptions' in template:
+            # Assumes Subtitle has a from_dict class method or similar functionality
+            self._plot_options = PlotOptions.from_dict(template['plotOptions'])
 
         if 'series' in template:
             # Clear existing series and add new ones from the template

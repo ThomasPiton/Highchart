@@ -66,7 +66,7 @@ class Series(ChartComponent):
         "pointIntervalUnit","softThreshold","connectNulls","clip",
         "zones","zoneAxis","compare","dataLabels","drilldown","linecap",
         "states","shadow","stackId","grouping","groupPadding","pointPadding",
-        "groupZPadding","dataGrouping","pointPlacement"
+        "groupZPadding","dataGrouping","pointPlacement","yAxis"
     ]
 
     def __init__(self,**kwargs):
