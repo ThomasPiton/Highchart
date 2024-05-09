@@ -1,6 +1,6 @@
 from chart_component import ChartComponent
 
-class Scrollbar(ChartComponent):
+class Responsive(ChartComponent):
 
     _valid_attributes = [
         'rules'

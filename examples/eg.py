@@ -1,5 +1,4 @@
 from highchart import Highchart
-from subtitle import Subtitle
 
 # Create a Highchart instance
 chart = Highchart()

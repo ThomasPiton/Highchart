@@ -1,170 +1,67 @@
-
 # highchart.py
-from title import Title
-from subtitle import Subtitle
-from series import Series
-from chart import Chart
-from legend import Legend
-from containers.drilldown import Drilldown
-from plot_options import PlotOptions
-from templates import TEMPLATES
-from xaxis import XAxis
-from yaxis import YAxis
+from components import *
+from templates import DEFAULT_TEMPLATE
+from container import Container
 
-class Highchart:
+class Highchart(Container):
+    """ 
+    """
     def __init__(self):
-        self._title = None
-        self._legend = None
-        self._chart = None
-        self._subtitle = None
-        self._series = None
-        self._legend = None
-        self._drilldown = None
-        self._plot_options = None
-        self._x_axis = None
-        self._y_axis = None
+        super().__init__()
+        self.__init_default_template()
         
-        # self._z_axis = None
-        # self._tooltip = None
-        # self._credits = None
-        # self._labels = None
-        # self._navigation = None
-        # self._responsive = None
-        # self._annotations = None
-        # self._no_data = None
-        # self._color_axis = None
-        # self._scrollbar = None
-        # self._range_selector = None
-        # self._boost = None
-        # self._navigator = None
+    def __init_default_template(self):
+        pass    
 
-    @property
-    def chart(self):
+    def __set_attributes(self, component_attr, component_class, *args, **kwargs):
         """
-        Provides access to the title object of the chart.
+        Generic method to set or update components of the Highchart.
 
-        Returns:
-            Title: The current title object.
+        Args:
+            component_attr (str): The attribute name of the component (e.g., "_chart", "_title").
+            component_class (type): The class of the component to be instantiated (e.g., Chart, Title).
+            *args: Positional arguments required by the component.
+            **kwargs: Keyword arguments for the component properties.
         """
-        return self._chart
-    
-    @property
-    def legend(self):
-        """
-        Provides access to the title object of the chart.
-
-        Returns:
-            Title: The current title object.
-        """
-        return self._legend
-
-    @property
-    def title(self):
-        """
-        Provides access to the title object of the chart.
-
-        Returns:
-            Title: The current title object.
-        """
-        return self._title
-
-    @property
-    def subtitle(self):
-        """
-        Provides access to the subtitle object of the chart.
-
-        Returns:
-            Title: The current subtitle object.
-        """
-        return self._subtitle
-
-    @property
-    def series(self):
-        return self._series
-
-    @title.setter
-    def title(self, value):
-        """
-        Sets the title of the chart. The value can be a Title object or a dictionary with title properties.
-
-        Parameters:
-            value (Title | dict): The new title object or a dictionary to create/update the title.
-        """
-        if isinstance(value, Title):
-            self._title = value
-        elif isinstance(value, dict):
-            # Update or create a new Title object from dictionary
-            self._title = Title.from_dict(value)
+        component = getattr(self, component_attr, None)
+        if component is None:
+            # If the component doesn"t exist, create a new instance
+            setattr(self, component_attr, component_class(*args, **kwargs))
         else:
-            raise TypeError("Title must be a Title object or a dictionary of title properties.")
-        
-    @subtitle.setter
-    def subtitle(self, value):
-        """
-        Sets the subtitle of the chart. The value can be a Subtitle object or a dictionary with subtitle properties.
+            # If the component exists, update its properties
+            for key, value in kwargs.items():
+                setattr(component, key, value)
 
-        Parameters:
-            value (Subtitle | dict): The new subtitle object or a dictionary to create/update the subtitle.
-        """
-        if isinstance(value, Subtitle):
-            self._subtitle = value
-        elif isinstance(value, dict):
-            # Update or create a new Title object from dictionary
-            self._subtitle = Subtitle.from_dict(value)
-        else:
-            raise TypeError("Title must be a Title object or a dictionary of title properties.")
+    def set_legend(self,enable:bool=True,**kwargs):
+        kwargs.update({"enable": enable})
+        self.__set_attributes("_legend", Legend, **kwargs)
 
-    @chart.setter
-    def chart(self, value):
-        """
-        Sets the chart. The value can be a Chart object or a dictionary with chart properties.
+    def set_chart(self,type:str=None,**kwargs):
+        kwargs.update({"type": type})
+        self.__set_attributes("_chart", Chart, type, **kwargs)
 
-        Parameters:
-            value (Chart | dict): The new chart object or a dictionary to create/update the chart.
-        """
-        if isinstance(value, Chart):
-            self._chart = value
-        elif isinstance(value, dict):
-            # Update or create a new Chart object from dictionary
-            self._chart = Chart.from_dict(value)
-        else:
-            raise TypeError("Chart must be a Chart object or a dictionary of chart properties.")
-        
-    @legend.setter
-    def legend(self, value):
-        """
-        Sets the legend. The value can be a Legend object or a dictionary with chart properties.
+    def set_title(self, text:str=None, align:str=None,**kwargs):
+        kwargs.update({"text": text, "align": align})
+        self.__set_attributes("_title", Title, text, align, **kwargs)
 
-        Parameters:
-            value (Legend | dict): The new legend object or a dictionary to create/update the legend.
-        """
-        if isinstance(value, Legend):
-            self._legend = value
-        elif isinstance(value, dict):
-            # Update or create a new Chart object from dictionary
-            self._legend = Legend.from_dict(value)
-        else:
-            raise TypeError("Chart must be a Chart object or a dictionary of chart properties.")
+    def set_subtitle(self,text:str=None, align:str=None,**kwargs):
+        kwargs.update({"text": text, "align": align})
+        self.__set_attributes("_subtitle", Subtitle, text, align, **kwargs)
 
     def set_x_axis(self,**kwargs):
-        if self._x_axis is None:
-           self._x_axis = XAxis(**kwargs)
+        self.__set_attributes("_x_axis", XAxis, **kwargs)
 
-    def set_legend(self,**kwargs):
-        if self._legend is None:
-           self._legend = Legend(**kwargs)
+    def set_y_axis(self,**kwargs):
+        self.__set_attributes("_y_axis", YAxis, **kwargs)
 
-    def set_chart(self,**kwargs):
-        if self._chart is None:
-           self._chart = Chart(**kwargs)
-    
-    def set_title(self,**kwargs):
-        if self._title is None:
-           self._title = Title(**kwargs)
+    def set_tooltip(self,**kwargs):
+        self.__set_attributes("_tooltip", Tooltip, **kwargs)
 
-    def set_subtitle(self,**kwargs):
-        if self._subtitle is None:
-           self._subtitle = Subtitle(**kwargs)
+    def set_accessibility(self,description:str,**kwargs):
+        self.__set_attributes("_accessibility", Accessibility, description, **kwargs)
+
+    def set_colors(self,colors:list,**kwargs):
+        self.__set_attributes("_colors", Colors, colors, **kwargs)
 
     def add_series(self, series):
         """
@@ -199,30 +96,11 @@ class Highchart:
         series = Series(name=series_name, data=data, **kwargs)
         self.add_series(series)
 
-    def add_series_from_dataframe(self, dataframe, column_name, series_name, **kwargs):
-        """
-        Directly creates and adds a series from a pandas DataFrame to the chart.
+    def add_y_axis(self, y_axis):
 
-        Args:
-            dataframe (pd.DataFrame): The DataFrame containing the series data.
-            column_name (str): The column in the DataFrame to use as data for the series.
-            series_name (str): The name of the series.
-            **kwargs: Additional keyword arguments for the series (e.g., type, color).
-        """
-        if column_name not in dataframe.columns:
-            raise ValueError(f"Column '{column_name}' does not exist in the DataFrame.")
+        if not isinstance(y_axis, YAxis):
+            raise ValueError("Must provide a YAxis object.")
         
-        data = dataframe[column_name].tolist()
-
-        series = Series(name=series_name, data=data, **kwargs)
-        
-        self.add_series(series)
-
-    def add_y_axis(self):
-        pass
-
-    def set_x_axis(self):
-        pass
 
     def get_template(self, name: str = None) -> dict:
         """
@@ -254,47 +132,50 @@ class Highchart:
         """
         return list(TEMPLATES.keys())
     
-    def apply_template(self, template:dict=None):
+    def load_template(self, template:dict=None):
         """
         Applies a template to the chart. The template should be a dictionary with possible keys
-        for 'title', 'subtitle', and 'series', each containing further settings.
+        for "title", "subtitle", and "series", each containing further settings.
 
         Args:
             template (dict): A dictionary containing the chart configuration.
         """
 
-        if 'chart' in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self.chart = Chart.from_dict(template['chart'])
+        if template is None:
+            raise ValueError("Template must be provided and cannot be None")
 
-        if 'title' in template:
+        if "chart" in template:
+            # Assumes Subtitle has a from_dict class method or similar functionality
+            self.chart = Chart.from_dict(template["chart"])
+
+        if "title" in template:
             # Assumes Title has a from_dict class method or similar functionality
-            self.title = Title.from_dict(template['title'])
+            self.title = Title.from_dict(template["title"])
         
-        if 'subtitle' in template:
+        if "subtitle" in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
-            self.subtitle = Subtitle.from_dict(template['subtitle'])
+            self.subtitle = Subtitle.from_dict(template["subtitle"])
 
-        if 'legend' in template:
+        if "legend" in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
-            self.legend = Legend.from_dict(template['legend'])
+            self.legend = Legend.from_dict(template["legend"])
 
-        if 'xAxis' in template:
+        if "xAxis" in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
-            self._x_axis = XAxis.from_dict(template['xAxis'])
+            self._x_axis = XAxis.from_dict(template["xAxis"])
 
-        if 'yAxis' in template:
+        if "yAxis" in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
-            self._y_axis = YAxis.from_dict(template['yAxis'])
+            self._y_axis = YAxis.from_dict(template["yAxis"])
 
-        if 'plotOptions' in template:
+        if "plotOptions" in template:
             # Assumes Subtitle has a from_dict class method or similar functionality
-            self._plot_options = PlotOptions.from_dict(template['plotOptions'])
+            self._plot_options = PlotOptions.from_dict(template["plotOptions"])
 
-        if 'series' in template:
+        if "series" in template:
             # Clear existing series and add new ones from the template
             # self.series.clear()
-            # for serie_data in template['series']:
+            # for serie_data in template["series"]:
             #     # Assumes Series has a from_dict class method or similar functionality
             #     self.series.append(Series.from_dict(serie_data))
             pass
@@ -304,18 +185,18 @@ class Highchart:
         Generates a dictionary representation of the chart object, including only available components.
 
         Returns:
-            dict: A dictionary with keys for 'chart', 'title', 'subtitle', and 'series' if they exist.
+            dict: A dictionary with keys for "chart", "title", "subtitle", and "series" if they exist.
         """
         result = {}
         if self._chart:
-            result['chart'] = self._chart.to_dict()
+            result["chart"] = self._chart.to_dict()
         if self._title:
-            result['title'] = self._title.to_dict()
+            result["title"] = self._title.to_dict()
         if self._subtitle:
-            result['subtitle'] = self._subtitle.to_dict()
+            result["subtitle"] = self._subtitle.to_dict()
         if self._legend:
-            result['legend'] = self._legend.to_dict()
+            result["legend"] = self._legend.to_dict()
         if self._series:
-            result['series'] = [serie.to_dict() for serie in self._series]
+            result["series"] = [serie.to_dict() for serie in self._series]
         
         return result

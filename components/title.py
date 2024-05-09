@@ -23,8 +23,27 @@ class Title(ChartComponent):
         "text","align","margin","verticalAlign","x","y","style","floating","useHTML"
     ]
 
+    # ----------- Method 0
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
+
+    # ----------- Method 1
+    # def __init__(self,text:str,align:str,margin:int,verticalAlign:str,x:int,y:int,style:dict,floating:bool,useHTML:bool,**args): 
+    #     super().__init__(**args)
+
+    # ----------- Method 2
+    # def __init__(self, **kwargs):
+    #     for key in self._valid_attributes:
+    #         setattr(self, key, kwargs.get(key, None))
+    #     super().__init__(**kwargs)
+
+    # ----------- Method 3
+    # def __init__(self, text=None, align=None, margin=None, verticalAlign=None, 
+    #              x=None, y=None, style=None, floating=None, useHTML=None, **kwargs):
+
+    #     super().__init__(text=text, align=align, margin=margin, verticalAlign=verticalAlign, 
+    #                      x=x, y=y, style=style, floating=floating, useHTML=useHTML, **kwargs)
+
 
 # ======================================================================================================================
 

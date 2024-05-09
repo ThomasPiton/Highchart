@@ -1,3 +1,20 @@
+DEFAULT_TEMPLATE = { 
+    "chart":{"type":"line"},
+    "title": {"align": "left","text": "Default template"},
+    "xAxis": {"type": "category"},
+    "yAxis": [{"title": {"text": "Default"}}],
+    "plotOptions": {
+        "series": {
+            "borderWidth": 0,
+            "dataLabels": {
+                "enabled": True,
+                "format": "{point.y:.1f}%"
+            }
+        }
+    }
+}
+
+
 TEMPLATES = {
     "line_chart":{
         "chart":{"chart_type":"line"},
@@ -22,3 +39,4 @@ TEMPLATES = {
     
     "time_series_with_irregular_intervals":{}
 }
+
