@@ -4,11 +4,15 @@ from common import Common
 
 class Drilldown(Common):
 
-    _valid_attributes = ["activeAxisLabelStyle","activeDataLabelStyle","allowPointDrilldown",
-        "animation","drillUpButton","series"]
+    _valid_attributes = [
+        "activeAxisLabelStyle","activeDataLabelStyle","allowPointDrilldown",
+        "animation","drillUpButton","series"
+    ]
     
-    _valid_chart = ['line', 'bar', 'column', 'area', 'areaspline', 'spline', 
-        'pie', 'scatter', 'bubble', 'heatmap', 'boxplot', 'waterfall']
+    _valid_chart = [
+        'line', 'bar', 'column', 'area', 'areaspline', 'spline', 
+        'pie', 'scatter', 'bubble', 'heatmap', 'boxplot', 'waterfall'
+    ]
     
     def __init__(self, dataframe, drilldown_levels):
         super().__init__()

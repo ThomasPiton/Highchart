@@ -3,8 +3,11 @@ from components import *
 from templates import DEFAULT_TEMPLATE
 from container import Container
 import warnings
+from typing import List,Dict,Union
+import pandas as pd
+from series_manager import SeriesManager
 
-class Highchart(Container):
+class Highchart(Container,SeriesManager):
     """ 
     """
     def __init__(self):
@@ -300,7 +303,7 @@ class Highchart(Container):
             return obj.to_dict()
         
         elif isinstance(obj, list):
-            return [self._to_dict(item) for item in obj]
+            return [self._process_attr(item) for item in obj]
 
         elif isinstance(obj, dict):
             return obj
@@ -308,35 +311,4 @@ class Highchart(Container):
         else:
             raise TypeError(f"Unsupported type {type(obj).__name__} for rendering")
     
-    def add_series(self, series):
-        """
-        Adds a new series to the chart.
-
-        Args:
-            series (Series): A Series object to add to the chart.
-        """
-        
-        if not isinstance(series, Series):
-            raise ValueError("Must provide a Series object.")
-        
-        if not self._series:
-            self._series = []
-
-        self._series.append(series)
-
-    def add_series_from_dataframe(self, dataframe, column_name, series_name, drilldown=None, **kwargs):
-        """
-        Directly creates and adds a series from a pandas DataFrame to the chart.
-
-        Args:
-            dataframe (pd.DataFrame): The DataFrame containing the series data.
-            column_name (str): The column in the DataFrame to use as data for the series.
-            series_name (str): The name of the series.
-            **kwargs: Additional keyword arguments for the series (e.g., type, color).
-        """
-        if column_name not in dataframe.columns:
-            raise ValueError(f"Column '{column_name}' does not exist in the DataFrame.")
-        
-        data = dataframe[column_name].tolist()
-        series = Series(name=series_name, data=data, **kwargs)
-        self.add_series(series)
+    

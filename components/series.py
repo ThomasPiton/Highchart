@@ -72,8 +72,9 @@ class Series(Common):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         
-        if 'drilldown' in kwargs:
-            self.handle_drilldown(kwargs['drilldown'])
+        # if 'drilldown' in kwargs:
+        # if kwargs["drilldown"]:
+        #     self.handle_drilldown(kwargs['drilldown'])
 
     def handle_drilldown(self, drilldown_value):
         """
@@ -93,6 +94,8 @@ class Series(Common):
         
         if self.events is None:
             self.events = {"click": "function() { alert('Drilldown to ' + this.category); }"}
+
+            
 
 
 # ======================================================================================================================
