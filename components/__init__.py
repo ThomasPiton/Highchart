@@ -1,8 +1,10 @@
 from .accessibility import Accessibility
 from .boost import Boost
+from .caption import Caption
 from .chart import Chart
 from .colors import Colors
 from .credits import Credits
+from .data import Data
 from .defs import Defs
 from .drilldown import Drilldown
 from .exporting import Exporting
@@ -24,7 +26,7 @@ from .yaxis import YAxis
 from .zaxis import ZAxis
 
 __all__= [
-    "Accessibility", "Boost", "Chart", "Colors", "Credits", "Defs", "Drilldown","Exporting",
+    "Accessibility", "Boost", "Caption", "Chart", "Colors", "Credits","Data", "Defs", "Drilldown","Exporting",
     "Labels","Legend","Loading","Navigator","Pane","PlotOptions","RangeSelector","Responsive",
     "Scrollbar","Series","Subtitle","Title","Tooltip","XAxis","YAxis","ZAxis"
 ]

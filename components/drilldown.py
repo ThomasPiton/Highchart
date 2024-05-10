@@ -1,8 +1,8 @@
 # drilldown.py
 
-from chart_component import ChartComponent
+from common import Common
 
-class Drilldown(ChartComponent):
+class Drilldown(Common):
 
     _valid_attributes = ["activeAxisLabelStyle","activeDataLabelStyle","allowPointDrilldown",
         "animation","drillUpButton","series"]

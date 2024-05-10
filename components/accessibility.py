@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Accessibility(ChartComponent):
+class Accessibility(Common):
 
     _valid_attributes = [
         'enabled', 'screenReaderSection', 'description', 'typeDescription', 'keyboardNavigation',

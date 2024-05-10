@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Labels(ChartComponent):
+class Labels(Common):
 
     _valid_attributes = [
         'items', 'style'

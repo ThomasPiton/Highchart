@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Defs(ChartComponent):
+class Defs(Common):
 
     _valid_attributes = [
         'glow', 'pattern', 'arrow', 'button', 'marker'

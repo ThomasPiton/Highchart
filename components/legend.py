@@ -1,8 +1,8 @@
 # Legend.py
 
-from chart_component import ChartComponent
+from common import Common
 
-class Legend(ChartComponent):
+class Legend(Common):
     """
     Represents the legend of a chart in Highcharts, managing the configuration
     of how series are displayed in the legend. This includes settings for layout,

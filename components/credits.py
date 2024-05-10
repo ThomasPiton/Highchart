@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Credits(ChartComponent):
+class Credits(Common):
 
     _valid_attributes = []
     

@@ -1,8 +1,8 @@
 # subtitle.py
 
-from chart_component import ChartComponent
+from common import Common
 
-class Subtitle(ChartComponent):
+class Subtitle(Common):
     """
     Represents the subtitle of the chart, allowing for detailed customization
     of the text, position, style, and other properties.

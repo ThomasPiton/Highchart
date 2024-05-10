@@ -1,7 +1,7 @@
 # title.py
-from chart_component import ChartComponent
+from common import Common
 
-class Title(ChartComponent):
+class Title(Common):
     """
     Represents the title of the chart, allowing for detailed customization
     of the text, position, style, and other properties.

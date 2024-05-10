@@ -1,9 +1,9 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Pane(ChartComponent):
+class Pane(Common):
 
     _valid_attributes = [
-        'background', 'center', 'endAngle', 'size', 'startAngle'
+        'background', 'center', 'endAngle', 'startAngle','size', 'innerSize',
     ]
     
     def __init__(self,**kwargs):

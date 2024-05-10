@@ -2,6 +2,7 @@
 from components import *
 from templates import DEFAULT_TEMPLATE
 from container import Container
+import warnings
 
 class Highchart(Container):
     """ 
@@ -11,9 +12,18 @@ class Highchart(Container):
         self.__init_default_template()
         
     def __init_default_template(self):
-        pass    
+        """
+        Initializes the chart with default settings for various components.
+        These settings are typically general defaults that make the chart immediately useful.
+        """
+        self.chart = Chart(type='line')
+        self.tooltip = Tooltip(enabled=False, shared=False, crosshairs=False)
+        self.title = Title(text='Default Title', align='center')
+        self.subtitle = Subtitle(text='Default Subtitle', align='center')
+        self.legend = Legend(enabled=True, layout='vertical', align='left', verticalAlign='middle')
+        self.plot_options = PlotOptions(series={"borderWidth": 0,"dataLabels": {"enabled": True,"format": "{point.y:.1f}%"}})
 
-    def __set_attributes(self, component_attr, component_class, *args, **kwargs):
+    def __set_attributes(self, component_attr, component_class, to_keep:bool=True, *args, **kwargs):
         """
         Generic method to set or update components of the Highchart.
 
@@ -23,85 +33,180 @@ class Highchart(Container):
             *args: Positional arguments required by the component.
             **kwargs: Keyword arguments for the component properties.
         """
+        
         component = getattr(self, component_attr, None)
-        if component is None:
-            # If the component doesn"t exist, create a new instance
+
+        if component is None or to_keep is False:
+            # If the component doesn't exist, create a new instance
             setattr(self, component_attr, component_class(*args, **kwargs))
         else:
-            # If the component exists, update its properties
-            for key, value in kwargs.items():
-                setattr(component, key, value)
+            # If the component exists, retrieve current attributes and update with kwargs
+            current_attrs = {attr: getattr(component, attr) for attr in component._valid_attributes if hasattr(component, attr)}
+            # Filter kwargs to exclude None values before updating
+            filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
+            # Update current attributes with filtered new attributes
+            current_attrs.update(filtered_kwargs)
+            # Re-instantiate the component with updated attributes
+            setattr(self, component_attr, component_class(**current_attrs))
 
-    def set_legend(self,enable:bool=True,**kwargs):
-        kwargs.update({"enable": enable})
+    def set_legend(self,enable:bool=True,align:str=None,title:str=None,**kwargs):
+        kwargs.update({"enable": enable,"align":align,"title":title})
         self.__set_attributes("_legend", Legend, **kwargs)
 
-    def set_chart(self,type:str=None,**kwargs):
-        kwargs.update({"type": type})
-        self.__set_attributes("_chart", Chart, type, **kwargs)
+    def set_chart(
+            self,
+            type:str=None,
+            to_keep:bool=True, 
+            **kwargs):
+        
+        kwargs.update(
+            {
+                "type": type
+            }
+        )
 
-    def set_title(self, text:str=None, align:str=None,**kwargs):
-        kwargs.update({"text": text, "align": align})
-        self.__set_attributes("_title", Title, text, align, **kwargs)
+        self.__set_attributes(component_attr="_chart", component_class=Chart, to_keep=to_keep, **kwargs)
 
-    def set_subtitle(self,text:str=None, align:str=None,**kwargs):
-        kwargs.update({"text": text, "align": align})
-        self.__set_attributes("_subtitle", Subtitle, text, align, **kwargs)
+    def set_data(
+            self,
+            table:str=None,
+            to_keep:bool=True, 
+            **kwargs):
+        
+        kwargs.update(
+            {
+                "table": table
+            }
+        )
 
-    def set_x_axis(self,**kwargs):
-        self.__set_attributes("_x_axis", XAxis, **kwargs)
+        self.__set_attributes(component_attr="_data", component_class=Data, to_keep=to_keep, **kwargs)
 
-    def set_y_axis(self,**kwargs):
-        self.__set_attributes("_y_axis", YAxis, **kwargs)
+    def set_title(
+            self,
+            text:str=None, 
+            align:str=None,
+            to_keep:bool=True, 
+            **kwargs):
+        
+        kwargs.update(
+            {
+                "text": text, 
+                "align": align
+            }
+        )
 
-    def set_tooltip(self,**kwargs):
-        self.__set_attributes("_tooltip", Tooltip, **kwargs)
+        self.__set_attributes(component_attr="_title",component_class=Title,to_keep=to_keep,**kwargs)
 
-    def set_accessibility(self,description:str,**kwargs):
-        self.__set_attributes("_accessibility", Accessibility, description, **kwargs)
+    def set_subtitle(
+            self,
+            text:str=None, 
+            align:str=None,
+            to_keep:bool=True, 
+            **kwargs):
+        
+        kwargs.update(
+            {
+                "text": text, 
+                "align": align
+            }
+        )
+
+        self.__set_attributes(component_attr="_subtitle", component_class=Subtitle, to_keep=to_keep, **kwargs)
+
+    def set_x_axis(
+            self,
+            to_keep:bool=True,
+            **kwargs):
+        
+        kwargs.update({})
+
+        self.__set_attributes(component_attr="_x_axis", component_class=XAxis,to_keep=to_keep, **kwargs)
+
+    def set_y_axis(
+            self,
+            to_keep:bool=True,
+            **kwargs):
+
+        kwargs.update({})
+
+        self.__set_attributes(component_attr="_y_axis", component_class=YAxis,to_keep=to_keep, **kwargs)
+
+    def set_tooltip(
+            self,
+            to_keep:bool=True,
+            **kwargs):
+        
+        kwargs.update({})
+
+        self.__set_attributes(component_attr="_tooltip", component_class=Tooltip,to_keep=to_keep, **kwargs)
+
+    def set_accessibility(
+            self,
+            description:str=None,
+            to_keep:bool=True,
+            **kwargs):
+
+        kwargs.update(
+            {
+                "description": description
+            }
+        )
+        self.__set_attributes(component_attr="_accessibility", component_class=Accessibility,to_keep=to_keep, **kwargs)
 
     def set_colors(self,colors:list,**kwargs):
-        self.__set_attributes("_colors", Colors, colors, **kwargs)
+        kwargs.update({"colors": colors})
+        self.__set_attributes("_colors", Colors, **kwargs)
 
-    def add_series(self, series):
-        """
-        Adds a new series to the chart.
-
-        Args:
-            series (Series): A Series object to add to the chart.
-        """
+    def set_plot_options(
+            self,
+            series:dict=None,
+            spline:dict=None,
+            pie:dict=None,
+            column:dict=None,
+            line:dict=None,
+            scatter:dict=None,
+            area:dict=None,
+            bar:dict=None,
+            packedbubble:dict=None,
+            streamgraph:dict=None,
+            to_keep:bool=True,
+            **kwargs):
         
-        if not isinstance(series, Series):
-            raise ValueError("Must provide a Series object.")
-        
-        if not self._series:
-            self._series = []
+        kwargs.update(
+            {
+                "series":series,
+                "spline":spline,
+                "pie":pie,
+                "column":column,
+                "line":line,
+                "scatter":scatter,
+                "area":area,
+                "bar":bar,
+                "packedbubble":packedbubble,
+                "streamgraph":streamgraph
+            }
+        )
 
-        self._series.append(series)
+        self.__set_attributes(component_attr="_plot_options", component_class=PlotOptions,to_keep=to_keep,**kwargs)
 
-    def add_series_from_dataframe(self, dataframe, column_name, series_name, drilldown, **kwargs):
-        """
-        Directly creates and adds a series from a pandas DataFrame to the chart.
+    def add_x_axis(self, type:str=None, title:dict=None, **kwargs):
+        if not self._x_axis: 
+            self._x_axis = []
+        x_axis = XAxis(type=type,title=title,**kwargs)
+        self._x_axis.append(x_axis)
+    
+    def add_y_axis(self, type:str=None, title:dict=None, **kwargs):
+        if not self._y_axis: 
+            self._y_axis = []
+        y_axis = YAxis(type=type,title=title,**kwargs)
+        self._y_axis.append(y_axis)
 
-        Args:
-            dataframe (pd.DataFrame): The DataFrame containing the series data.
-            column_name (str): The column in the DataFrame to use as data for the series.
-            series_name (str): The name of the series.
-            **kwargs: Additional keyword arguments for the series (e.g., type, color).
-        """
-        if column_name not in dataframe.columns:
-            raise ValueError(f"Column '{column_name}' does not exist in the DataFrame.")
-        
-        data = dataframe[column_name].tolist()
-        series = Series(name=series_name, data=data, **kwargs)
-        self.add_series(series)
-
-    def add_y_axis(self, y_axis):
-
-        if not isinstance(y_axis, YAxis):
-            raise ValueError("Must provide a YAxis object.")
-        
-
+    def add_colors(self, colors:list=None, **kwargs):
+        if not self._colors:
+            self._colors = []
+        colors = Colors(colors=colors, **kwargs)
+        self._colors.append()
+    
     def get_template(self, name: str = None) -> dict:
         """
         Retrieves a chart configuration template by its name from a predefined dictionary of templates.
@@ -143,60 +248,95 @@ class Highchart(Container):
 
         if template is None:
             raise ValueError("Template must be provided and cannot be None")
-
-        if "chart" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self.chart = Chart.from_dict(template["chart"])
-
-        if "title" in template:
-            # Assumes Title has a from_dict class method or similar functionality
-            self.title = Title.from_dict(template["title"])
         
-        if "subtitle" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self.subtitle = Subtitle.from_dict(template["subtitle"])
+        config_mapping = {
+            'chart': (Chart, 'chart'),
+            'tooltip': (Tooltip, 'tooltip'),
+            'title': (Title, 'title'),
+            'subtitle': (Subtitle, 'subtitle'),
+            'legend': (Legend, 'legend'),
+            'xAxis': (XAxis, '_x_axis'),
+            'yAxis': (YAxis, '_y_axis'),
+            'credits': (Credits, 'credits'),
+            'plotOptions': (PlotOptions, '_plot_options')
+        }
 
-        if "legend" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self.legend = Legend.from_dict(template["legend"])
+        supported_keys = set(config_mapping.keys())
+        input_keys = set(template.keys())
+        unsupported_keys = input_keys - supported_keys
 
-        if "xAxis" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self._x_axis = XAxis.from_dict(template["xAxis"])
+        if unsupported_keys:
+            warnings.warn(f"Unsupported keys provided: {', '.join(unsupported_keys)}. These will be ignored.", UserWarning)
 
-        if "yAxis" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self._y_axis = YAxis.from_dict(template["yAxis"])
-
-        if "plotOptions" in template:
-            # Assumes Subtitle has a from_dict class method or similar functionality
-            self._plot_options = PlotOptions.from_dict(template["plotOptions"])
-
-        if "series" in template:
-            # Clear existing series and add new ones from the template
-            # self.series.clear()
-            # for serie_data in template["series"]:
-            #     # Assumes Series has a from_dict class method or similar functionality
-            #     self.series.append(Series.from_dict(serie_data))
-            pass
+        for key, (class_name, attr) in config_mapping.items():
+            if key in template:
+                setattr(self, attr, class_name.from_dict(template[key]))
 
     def render(self):
         """
-        Generates a dictionary representation of the chart object, including only available components.
-
+        Generates a dictionary representation of the properties inherited from Container.
+        Does not include Highchart-specific properties in the output.
+        
         Returns:
-            dict: A dictionary with keys for "chart", "title", "subtitle", and "series" if they exist.
+            dict: A dictionary containing the rendered properties of the Container.
         """
         result = {}
-        if self._chart:
-            result["chart"] = self._chart.to_dict()
-        if self._title:
-            result["title"] = self._title.to_dict()
-        if self._subtitle:
-            result["subtitle"] = self._subtitle.to_dict()
-        if self._legend:
-            result["legend"] = self._legend.to_dict()
-        if self._series:
-            result["series"] = [serie.to_dict() for serie in self._series]
-        
+        # Iterate over attributes defined in Container
+        for attribute_name in vars(Container()).keys():
+            key = attribute_name[1:]  # Remove the leading underscore and use as the key
+            attribute = getattr(self, attribute_name, None)
+            if attribute:
+                result[key] = self._process_attr(attribute)
+
         return result
+
+    def _process_attr(self, obj):
+        """
+        Convert objects with a to_dict method, lists of objects, or dictionaries to a dictionary format.
+        Raises:
+            TypeError: If the object type is not supported.
+        """
+        if hasattr(obj, 'to_dict'):
+            return obj.to_dict()
+        
+        elif isinstance(obj, list):
+            return [self._to_dict(item) for item in obj]
+
+        elif isinstance(obj, dict):
+            return obj
+        
+        else:
+            raise TypeError(f"Unsupported type {type(obj).__name__} for rendering")
+    
+    def add_series(self, series):
+        """
+        Adds a new series to the chart.
+
+        Args:
+            series (Series): A Series object to add to the chart.
+        """
+        
+        if not isinstance(series, Series):
+            raise ValueError("Must provide a Series object.")
+        
+        if not self._series:
+            self._series = []
+
+        self._series.append(series)
+
+    def add_series_from_dataframe(self, dataframe, column_name, series_name, drilldown=None, **kwargs):
+        """
+        Directly creates and adds a series from a pandas DataFrame to the chart.
+
+        Args:
+            dataframe (pd.DataFrame): The DataFrame containing the series data.
+            column_name (str): The column in the DataFrame to use as data for the series.
+            series_name (str): The name of the series.
+            **kwargs: Additional keyword arguments for the series (e.g., type, color).
+        """
+        if column_name not in dataframe.columns:
+            raise ValueError(f"Column '{column_name}' does not exist in the DataFrame.")
+        
+        data = dataframe[column_name].tolist()
+        series = Series(name=series_name, data=data, **kwargs)
+        self.add_series(series)

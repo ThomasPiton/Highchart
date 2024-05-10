@@ -1,9 +1,9 @@
 from common import Common
 
-class Responsive(Common):
+class Data(Common):
 
     _valid_attributes = [
-        'rules'
+        'table'
     ]
     
     def __init__(self,**kwargs):

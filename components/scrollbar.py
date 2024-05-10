@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Scrollbar(ChartComponent):
+class Scrollbar(Common):
 
     _valid_attributes = [
         'barBackgroundColor', 'barBorderColor', 'barBorderRadius', 'barBorderWidth',

@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Lang(ChartComponent):
+class Lang(Common):
 
     _valid_attributes = [
     ]

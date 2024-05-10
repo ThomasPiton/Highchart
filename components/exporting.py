@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Exporting(ChartComponent):
+class Exporting(Common):
 
     _valid_attributes = [
         'enabled', 'filename', 'formAttributes', 'scale', 'sourceWidth', 'sourceHeight',

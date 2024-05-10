@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Loading(ChartComponent):
+class Loading(Common):
 
     _valid_attributes = [
         'hideDuration', 'labelStyle', 'showDuration', 'style'

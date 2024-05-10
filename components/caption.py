@@ -1,9 +1,9 @@
 from common import Common
 
-class Responsive(Common):
+class Caption(Common):
 
     _valid_attributes = [
-        'rules'
+        'text'
     ]
     
     def __init__(self,**kwargs):

@@ -1,7 +1,7 @@
 
-from chart_component import ChartComponent
+from common import Common
 
-class XAxis(ChartComponent):
+class XAxis(Common):
     """
     Represents the X-axis of a Highcharts chart, providing extensive configuration options
     that define the behavior and appearance of the x-axis in a chart.

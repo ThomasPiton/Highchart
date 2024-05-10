@@ -1,7 +1,7 @@
 
-from chart_component import ChartComponent
+from common import Common
 
-class Tooltip(ChartComponent):
+class Tooltip(Common):
     """
     Represents a Tooltip in Highcharts, used to configure how tooltips are displayed
     when interacting with the chart. This class provides an interface to set up all 

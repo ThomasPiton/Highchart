@@ -1,8 +1,8 @@
 # chart.py
 
-from chart_component import ChartComponent
+from common import Common
 
-class Chart(ChartComponent):
+class Chart(Common):
     """
     Represents the main chart settings in Highcharts, allowing for detailed
     customization of the chart's appearance and behavior.
@@ -58,6 +58,11 @@ class Chart(ChartComponent):
 
     Valid attributes are stored in _valid_attributes list and checked during initialization.
     """
+    
+    _valid_chart_type = [
+        "series","spline","pie","column","line","areaspline","arearange","columnrange",
+        "scatter","area","bar","packedbubble","streamgraph","variwide","variablepie"
+    ]
 
     _valid_attributes = [
         "type","alignTicks","animation","backgroundColor","borderColor","borderRadius",

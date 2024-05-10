@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Annotations(ChartComponent):
+class Annotations(Common):
 
     _valid_attributes = [
         "draggable","labelOptions","labels"

@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class RangeSelector(ChartComponent):
+class RangeSelector(Common):
 
     _valid_attributes = [
         'allButtonsEnabled', 'buttonPosition', 'buttons', 'buttonSpacing', 'buttonTheme',

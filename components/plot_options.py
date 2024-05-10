@@ -1,8 +1,8 @@
 # plot_options.py
 
-from chart_component import ChartComponent
+from common import Common
 
-class PlotOptions(ChartComponent):
+class PlotOptions(Common):
     """
     Represents the plot options in Highcharts, allowing for detailed
     customization of the plotting behavior and visual style across different series types.
@@ -60,7 +60,14 @@ class PlotOptions(ChartComponent):
 
     Valid attributes are stored in _valid_attributes list and checked during initialization.
     """
+    
+    _valid_charts = [
+        "series","spline","pie","column","line","areaspline","arearange","columnrange",
+        "scatter","area","bar","packedbubble","streamgraph","variwide","variablepie"
+    ]
+
     _valid_attributes = [
+        "series","spline","pie","column","line","scatter","area","bar","packedbubble","streamgraph"
         "allowPointSelect","animation","className","colorIndex","colors","connectEnds",
         "connectNulls","cropThreshold","cursor","dashStyle","dataGrouping","dataLabels",
         "depth","enableMouseTracking","exposeElementToA11y","findNearestPointBy","getExtremesFromAll",

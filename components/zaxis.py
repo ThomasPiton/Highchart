@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class ZAxis(ChartComponent):
+class ZAxis(Common):
 
     _valid_attributes = [
         "allowDecimals", "alternateGridColor", "categories", "ceiling",

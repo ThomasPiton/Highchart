@@ -1,7 +1,7 @@
 import pandas as pd
-from chart_component import ChartComponent
+from common import Common
 
-class Series(ChartComponent):
+class Series(Common):
     """
     Represents the series in Highcharts, encapsulating the data and options that define how
     each series is displayed and behaves within the chart.
@@ -60,17 +60,18 @@ class Series(ChartComponent):
     _valid_attributes = [
         "type","name","data","color","visible","enableMouseTracking",
         "linkedTo","index","zIndex","stacking","dashStyle","marker",
-        "tooltip","threshold","negativeColor","borderColor",
+        "tooltip","threshold","negativeColor","borderColor","borderRadius",
         "borderWidth","animation","step","keys","cursor","showInLegend",
         "events","point","turboThreshold","pointStart","pointInterval",
         "pointIntervalUnit","softThreshold","connectNulls","clip",
         "zones","zoneAxis","compare","dataLabels","drilldown","linecap",
         "states","shadow","stackId","grouping","groupPadding","pointPadding",
-        "groupZPadding","dataGrouping","pointPlacement","yAxis"
+        "groupZPadding","dataGrouping","pointPlacement","yAxis", "colorByPoint"
     ]
 
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
+        
         if 'drilldown' in kwargs:
             self.handle_drilldown(kwargs['drilldown'])
 

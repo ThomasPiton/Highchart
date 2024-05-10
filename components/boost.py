@@ -1,6 +1,6 @@
-from chart_component import ChartComponent
+from common import Common
 
-class Boost(ChartComponent):
+class Boost(Common):
 
     _valid_attributes = [
         'allowForce', 'debug', 'enabled', 'seriesThreshold', 'useGPUTranslations',

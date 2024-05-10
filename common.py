@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import warnings
 import json
 
-class ChartComponent(ABC):
+class Common(ABC):
     """
     Abstract base class for chart components like Title, Subtitle, and Series.
     Provides a standardized approach for initializing and converting component
@@ -90,4 +90,14 @@ class ChartComponent(ABC):
                 warnings.warn(f"Invalid attribute '{key}' provided to {cls.__name__}. It will be ignored.", UserWarning)
 
         return cls(**valid_data)
+    
+    @classmethod
+    def from_list(cls, data):
+        """
+        Creates a list of instances of a chart component from a list of dictionaries.
+        
+        Parameters:
+            data_list (list): A list of dictionaries where each dictionary contains attributes for an instance.
+        """
+        return [cls.from_dict(data) for data in data if isinstance(data, dict)]
 
