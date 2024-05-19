@@ -6,8 +6,9 @@ import warnings
 from typing import List,Dict,Union
 import pandas as pd
 from series_manager import SeriesManager
+from drilldown_manager import DrilldownManager
 
-class Highchart(Container,SeriesManager):
+class Highchart(Container, SeriesManager, DrilldownManager):
     """ 
     """
     def __init__(self):

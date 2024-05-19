@@ -1,7 +1,5 @@
 from common import Common
 
-from common import Common
-
 class Data(Common):
     """
     Represents the data options for a Highcharts chart configuration.

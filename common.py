@@ -28,18 +28,6 @@ class Common(ABC):
                 else:
                     warnings.warn(f"Ignoring invalid attribute '{k}' for {self.__class__.__name__}.", UserWarning)
 
-    # def __init__(self, **kwargs):
-    #     """
-    #     Initializes chart component attributes based on provided keyword arguments.
-    #     Only attributes that are listed in the _valid_attributes list are set.
-    #     Attributes not in the list are ignored to prevent arbitrary attribute assignment.
-    #     """
-    #     # Initialize all attributes to None or their default values
-    #     self.__dict__.update({attr: None for attr in self._valid_attributes})
-
-    #     # Update the attributes with any values provided upon instantiation
-    #     self.__dict__.update((k, v) for k, v in kwargs.items() if k in self._valid_attributes)
-
     @property
     @abstractmethod
     def _valid_attributes(self):
@@ -55,13 +43,6 @@ class Common(ABC):
         else:
             return {attr: getattr(self, attr) for attr in self._valid_attributes if getattr(self, attr) is not None}
 
-    # def to_dict(self):
-    #     """
-    #     Converts the chart component into a dictionary of its properties,
-    #     only including those that are not None.
-    #     """
-    #     return {attr: getattr(self, attr) for attr in self._valid_attributes if getattr(self, attr) is not None}
-    
     def to_json(self):
         """
         Serializes the chart component's attributes to a JSON string.

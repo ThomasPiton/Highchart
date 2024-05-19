@@ -37,56 +37,34 @@ df = pd.read_csv("database1000rows.csv")
 #     tooltip={"valueSuffix":" °C"}
 # )
 
+# chart.add_series_from_dataframe(
+#     dataframe=df, 
+#     # column_name='rainfall',
+#     column_names=['BU','SBU'],
+#     series_name='Business Unit', 
+#     type='column',
+#     yAxis=1, 
+#     tooltip={"valueSuffix":" mm"},
+# )
+
 chart.add_series_from_dataframe(
     dataframe=df, 
-    # column_name='rainfall',
-    column_names=['BU','SBU'],
-    series_name='Business Unit', 
-    type='column',
-    yAxis=1, 
-    tooltip={"valueSuffix":" mm"},
+    column_names='SCN', 
+    series_name='Drilldown STT Scenario', 
+    type='line',
+    yAxis=2,
+    marker={"enabled":False},
+    dashStyle="shortdot",
+    tooltip={"valueSuffix":" mb"},
+    drilldown_levels=[
+        {"name": "BU", "type": "line"}, 
+        {"name": "SBU", "type": "bar"},
+        {"name": "GRPPC3", "type": "column"},
+        {"name": "PC", "type": "area"},
+        {"name": "GOP", "type": "area"},
+        {"name": "PTF", "type": "column"}
+    ]
 )
 
-# chart.add_series_from_dataframe(
-#     dataframe=df, 
-#     column_names='SBU', 
-#     series_name='Sub Business Unit', 
-#     type='spline',
-#     yAxis=2,
-#     marker={"enabled":False},
-#     dashStyle="shortdot",
-#     tooltip={"valueSuffix":" mb"},
-#     drilldown_levels=[
-#         # {"name": "SCN", "type": "pie"},
-#         # {"name": "BU", "type": "line"}, 
-#         {"name": "SBU", "type": "bar"},
-#         {"name": "GRPPC3", "type": "column"},
-#         {"name": "PC", "type": "area"},
-#         {"name": "GOP", "type": "area"},
-#         {"name": "PTF", "type": "column"}
-#     ]
-# )
-
-
-# chart.add_series_from_dataframe(
-#     dataframe=df, 
-#     column_names='SBU', 
-#     series_name='Sub Business Unit', 
-#     type='spline',
-#     yAxis=2,
-#     marker={"enabled":False},
-#     dashStyle="shortdot",
-#     tooltip={"valueSuffix":" mb"},
-#     drilldown_levels=[
-#         # {"name": "SCN", "type": "pie"},
-#         # {"name": "BU", "type": "line"}, 
-#         {"name": "SBU", "type": "bar"},
-#         {"name": "GRPPC3", "type": "column"},
-#         {"name": "PC", "type": "area"},
-#         {"name": "GOP", "type": "area"},
-#         {"name": "PTF", "type": "column"}
-#     ]
-# )
-
-
-print(chart.render())
+result = chart.render()
+print(result)
