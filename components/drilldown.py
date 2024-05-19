@@ -4,6 +4,8 @@ from common import Common
 
 class Drilldown(Common):
 
+    _list_only = False
+    
     _valid_attributes = [
         "activeAxisLabelStyle","activeDataLabelStyle","allowPointDrilldown",
         "animation","drillUpButton","series"

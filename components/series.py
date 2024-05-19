@@ -57,6 +57,8 @@ class Series(Common):
     Valid attributes are stored in _valid_attributes list and checked during initialization.
     """
     
+    _list_only = False
+    
     _valid_attributes = [
         "type","name","data","color","visible","enableMouseTracking",
         "linkedTo","index","zIndex","stacking","dashStyle","marker",

@@ -4,6 +4,7 @@ class Container:
 
     def __init__(self) -> None:
         self._accessibility = None
+        self._annotations = None
         self._boost = None
         self._caption = None
         self._chart = None
@@ -14,6 +15,7 @@ class Container:
         self._drilldown = None
         self._exporting = None
         self._labels = None
+        self._lang = None
         self._legend = None
         self._loading = None
         self._navigator = None
@@ -33,6 +35,10 @@ class Container:
     @property
     def accessibility(self):
         return self._accessibility
+    
+    @property
+    def annotations(self):
+        return self._annotations
     
     @property
     def boost(self):
@@ -73,6 +79,10 @@ class Container:
     @property
     def labels(self):
         return self._labels
+    
+    @property
+    def lang(self):
+        return self._lang
     
     @property
     def legend(self):
@@ -137,6 +147,10 @@ class Container:
     @accessibility.setter
     def accessibility(self,value):
         self.__setter_attributes(attr_name='accessibility', class_name="Accessibility", value=value)
+
+    @accessibility.setter
+    def annotations(self,value):
+        self.__setter_attributes(attr_name='annotations', class_name="Annotations", value=value)
     
     @boost.setter
     def boost(self,value):
@@ -177,6 +191,10 @@ class Container:
     @labels.setter
     def labels(self,value):
         self.__setter_attributes(attr_name='labels', class_name="Labels", value=value)
+
+    @lang.setter
+    def lang(self,value):
+        self.__setter_attributes(attr_name='lang', class_name="Lang", value=value)
     
     @legend.setter
     def legend(self,value):

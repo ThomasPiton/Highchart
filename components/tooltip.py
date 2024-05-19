@@ -45,6 +45,8 @@ class Tooltip(Common):
         - xDateFormat (str): Format for the x values in the tooltip.
     """
     
+    _list_only = False
+    
     _valid_attributes = [
         'animation', 'backgroundColor', 'borderColor', 'borderRadius', 'borderWidth',
         'className', 'crosshairs', 'dateTimeLabelFormats', 'distance', 'enabled',

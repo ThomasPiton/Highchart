@@ -195,20 +195,24 @@ class Highchart(Container,SeriesManager):
     def add_x_axis(self, type:str=None, title:dict=None, **kwargs):
         if not self._x_axis: 
             self._x_axis = []
-        x_axis = XAxis(type=type,title=title,**kwargs)
-        self._x_axis.append(x_axis)
+        x_axis_instance = XAxis(type=type,title=title,**kwargs)
+        self._x_axis.append(x_axis_instance)
     
     def add_y_axis(self, type:str=None, title:dict=None, **kwargs):
         if not self._y_axis: 
             self._y_axis = []
-        y_axis = YAxis(type=type,title=title,**kwargs)
-        self._y_axis.append(y_axis)
+        y_axis_instance = YAxis(type=type,title=title,**kwargs)
+        self._y_axis.append(y_axis_instance)
+
+    def add_z_axis(self, type:str=None, title:dict=None, **kwargs):
+        if not self._z_axis: 
+            self._z_axis = []
+        z_axis_instance = ZAxis(type=type,title=title,**kwargs)
+        self._z_axis.append(z_axis_instance)
 
     def add_colors(self, colors:list=None, **kwargs):
-        if not self._colors:
-            self._colors = []
-        colors = Colors(colors=colors, **kwargs)
-        self._colors.append()
+        color_instance = Colors(values=colors, **kwargs)
+        self._colors = color_instance
     
     def get_template(self, name: str = None) -> dict:
         """
@@ -299,6 +303,12 @@ class Highchart(Container,SeriesManager):
         Raises:
             TypeError: If the object type is not supported.
         """
+
+        
+
+        if hasattr(obj, '_list_only') and obj._list_only:
+            return obj.values
+
         if hasattr(obj, 'to_dict'):
             return obj.to_dict()
         

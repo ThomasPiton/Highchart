@@ -15,11 +15,30 @@ class Common(ABC):
         Only attributes that are listed in the _valid_attributes list are set.
         Attributes not in the list are ignored to prevent arbitrary attribute assignment.
         """
-        # Initialize all attributes to None or their default values
-        self.__dict__.update({attr: None for attr in self._valid_attributes})
+        if getattr(self, '_list_only', False):
+            self.values = kwargs.get('values', [])
+            if not isinstance(self.values, list):
+                raise ValueError("The 'values' attribute must be a list.")
+        else:
+            for attr in getattr(self, '_valid_attributes', []):
+                setattr(self, attr, None)
+            for k, v in kwargs.items():
+                if k in getattr(self, '_valid_attributes', []):
+                    setattr(self, k, v)
+                else:
+                    warnings.warn(f"Ignoring invalid attribute '{k}' for {self.__class__.__name__}.", UserWarning)
 
-        # Update the attributes with any values provided upon instantiation
-        self.__dict__.update((k, v) for k, v in kwargs.items() if k in self._valid_attributes)
+    # def __init__(self, **kwargs):
+    #     """
+    #     Initializes chart component attributes based on provided keyword arguments.
+    #     Only attributes that are listed in the _valid_attributes list are set.
+    #     Attributes not in the list are ignored to prevent arbitrary attribute assignment.
+    #     """
+    #     # Initialize all attributes to None or their default values
+    #     self.__dict__.update({attr: None for attr in self._valid_attributes})
+
+    #     # Update the attributes with any values provided upon instantiation
+    #     self.__dict__.update((k, v) for k, v in kwargs.items() if k in self._valid_attributes)
 
     @property
     @abstractmethod
@@ -31,11 +50,17 @@ class Common(ABC):
         raise NotImplementedError("Subclasses must define '_valid_attributes'.")
 
     def to_dict(self):
-        """
-        Converts the chart component into a dictionary of its properties,
-        only including those that are not None.
-        """
-        return {attr: getattr(self, attr) for attr in self._valid_attributes if getattr(self, attr) is not None}
+        if getattr(self, '_list_only', False):
+            return self.values
+        else:
+            return {attr: getattr(self, attr) for attr in self._valid_attributes if getattr(self, attr) is not None}
+
+    # def to_dict(self):
+    #     """
+    #     Converts the chart component into a dictionary of its properties,
+    #     only including those that are not None.
+    #     """
+    #     return {attr: getattr(self, attr) for attr in self._valid_attributes if getattr(self, attr) is not None}
     
     def to_json(self):
         """
@@ -75,21 +100,38 @@ class Common(ABC):
         return [attr for attr in self._valid_attributes if getattr(self, attr) is not None]
     
     @classmethod
-    def from_dict(cls, data):
-        """
-        Creates an instance of a chart component from a dictionary, applying only valid attributes.
-
-        Parameters:
-            data (dict): A dictionary where keys are attribute names and values are the settings for those attributes.
-        """
-        valid_data = {}
-        for key, value in data.items():
-            if key in cls._valid_attributes:
-                valid_data[key] = value
+    def from_dict(cls, data: dict):
+        if getattr(cls, '_list_only', False):
+            if 'values' in data:
+                if isinstance(data['values'], list):
+                    return cls(values=data['values'])
+                else:
+                    raise ValueError("The 'values' attribute must be a list.")
             else:
-                warnings.warn(f"Invalid attribute '{key}' provided to {cls.__name__}. It will be ignored.", UserWarning)
+                return cls()
+        else:
+            valid_data = {k: v for k, v in data.items() if k in cls._valid_attributes}
+            invalid_keys = set(data.keys()) - set(valid_data.keys())
+            if invalid_keys:
+                warnings.warn(f"Ignoring invalid attributes {invalid_keys} for {cls.__name__}.", UserWarning)
+            return cls(**valid_data)
 
-        return cls(**valid_data)
+    # @classmethod
+    # def from_dict(cls, data):
+    #     """
+    #     Creates an instance of a chart component from a dictionary, applying only valid attributes.
+
+    #     Parameters:
+    #         data (dict): A dictionary where keys are attribute names and values are the settings for those attributes.
+    #     """
+    #     valid_data = {}
+    #     for key, value in data.items():
+    #         if key in cls._valid_attributes:
+    #             valid_data[key] = value
+    #         else:
+    #             warnings.warn(f"Invalid attribute '{key}' provided to {cls.__name__}. It will be ignored.", UserWarning)
+
+    #     return cls(**valid_data)
     
     @classmethod
     def from_list(cls, data):

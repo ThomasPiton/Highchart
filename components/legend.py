@@ -47,6 +47,9 @@ class Legend(Common):
 
     Valid attributes are stored in _valid_attributes list and checked during initialization.
     """
+    
+    _list_only = False
+    
     _valid_attributes = [
         "align","backgroundColor","borderColor","borderRadius","borderWidth","enabled","floating",
         "itemDistance","itemHiddenStyle","itemHoverStyle","itemMarginBottom","itemMarginTop",

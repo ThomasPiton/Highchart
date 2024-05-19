@@ -2,6 +2,8 @@ from common import Common
 
 class Scrollbar(Common):
 
+    _list_only = False
+    
     _valid_attributes = [
         'barBackgroundColor', 'barBorderColor', 'barBorderRadius', 'barBorderWidth',
         'buttonArrowColor', 'buttonBackgroundColor', 'buttonBorderColor',
