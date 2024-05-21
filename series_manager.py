@@ -1,3 +1,5 @@
+# series_manager.py
+
 from common import Common
 from components import *
 from typing import List,Dict,Union
@@ -57,6 +59,7 @@ class SeriesManager:
         
         if not self._series:
             self._series = []
+            self._drilldown = {"series":["test"]}
 
         self._series.append(series)
 
@@ -81,6 +84,7 @@ class SeriesManager:
         if drilldown_levels:
             # self.add_series_from_dataframe_with_drilldown(df=dataframe, drilldown_levels=drilldown_levels, aggfunc=aggfunc, **kwargs)
             data = self.__add_series_with_drilldown(column_names=column_names,df=dataframe, drilldown_levels=drilldown_levels, aggfunc=aggfunc, **kwargs)
+            # second setp for drilldown  
         elif len(column_names) > 1:
             data = dataframe[column_names].values.tolist()
         elif len(column_names) == 1:
@@ -140,7 +144,7 @@ class SeriesManager:
             dataframe=df
         )
 
-        drilldown_manager.add_drilldown_test()
+        drilldown_manager.add_drilldown_test(**kwargs)
 
         return series_with_drilldown
 

@@ -1,3 +1,5 @@
+# template.py
+
 DEFAULT_TEMPLATE = { 
     "chart":{"type":"line"},
     "title": {"align": "left","text": "Default template"},

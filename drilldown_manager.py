@@ -1,3 +1,4 @@
+# drilldown_manager.py
 from common import Common
 from components import *
 from typing import List,Dict,Union
@@ -5,7 +6,8 @@ import pandas as pd
 
 class DrilldownManager:
 
-    def __init__(self,drilldown_levels, dataframe, ids) -> None:
+    def __init__(self,drilldown_levels, dataframe, ids, **kwargs) -> None:
+        super().__init__(**kwargs)
         
         self.dataframe = dataframe
         self.drilldown_levels = drilldown_levels
@@ -55,7 +57,7 @@ class DrilldownManager:
 
         self._drilldown = Drilldown
 
-    def add_drilldown_test(self):
+    def add_drilldown_test(self,**kwargs):
 
         self.__validate_chart_types()
         self.__check_drilldown_levels()
@@ -98,7 +100,8 @@ class DrilldownManager:
 
                 data.append(drilldown_series)
 
-        self._drilldown = Drilldown(series=data,**kwargs)
+        # TODO: think about a method to provide Drilldown info using a single function add_series_from_dataframe, idea=> drilldown_param
+        self._drilldown = Drilldown(series=data)
         
         # drilldown_instance = Drilldown(series=data)
         # self.set_drilldown(drilldown_instance)

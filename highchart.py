@@ -1,4 +1,5 @@
 # highchart.py
+
 from components import *
 from templates import DEFAULT_TEMPLATE
 from container import Container
