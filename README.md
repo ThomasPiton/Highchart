@@ -1,47 +1,75 @@
 # Highchart
-This class aims to scrape and facilitat egeneration of highcart graph in python. 
 
-# Highcharts Configuration Guide
+Highchart is a Python class designed to facilitate the scraping and generation of Highcharts graphs. This repository includes comprehensive tools for creating interactive and visually appealing charts.
 
-This guide provides an overview of the main configuration keys used in Highcharts, offering a structured way to build interactive charts. Below, you will find a list of all main keys, along with their descriptions, which can be used to customize your charts comprehensively.
+## Features
 
-## Configuration Keys
+- **Chart Generation**: Supports various chart types including line, bar, and pie charts.
+- **Customization**: Allows extensive customization of chart options, titles, labels, axes, and more.
+- **Interactivity**: Enables tooltips, legends, and plot options for better user interaction.
+- **Advanced Options**: Supports responsive design, exporting features, annotations, and drilldown capabilities.
+- **Performance**: Includes boost settings for handling large datasets efficiently.
 
-### Chart
-- **chart**: General chart options like the type of chart (e.g., line, bar, pie), dimensions, background, border, etc.
+## Installation
+bash
+pip install highchart
+Usage
+Here is a basic example of how to use Highchart to create a simple chart:
 
-### Titles and Labels
-- **title**: Main title of the chart, customizable with text, style, and position.
-- **subtitle**: Subtitle for additional information below the main title.
+python
+Copier le code
+from highchart import Highchart
 
-### Axes
-- **xAxis**: Configuration for the x-axis including type, categories, labels, title, and more.
-- **yAxis**: Configuration for the y-axis similar to the x-axis. Supports multiple axes.
+# Initialize the chart
+chart = Highchart()
 
-### Data Series
-- **series**: Array of data series, each with its own settings and data points. Defines what data is shown and how.
+# Add data series
+chart.add_data_set([1, 3, 2, 4], series_type='line', name='Example Series')
 
-### Interactivity
-- **tooltip**: Options for the tooltip that appears on hover over data points. Highly customizable.
-- **legend**: Settings for the chart's legend, which helps explain the data series.
+# Configure chart options
+chart.set_options('title', {'text': 'Simple Line Chart'})
 
-### Plot Options
-- **plotOptions**: General options for all series types or specific styling and behavior settings for each type.
+# Generate and display the chart
+chart.show()
+Configuration Keys
+Chart
+chart: General chart options such as type, dimensions, background, and border.
+Titles and Labels
+title: Main title configuration.
+subtitle: Subtitle configuration.
+Axes
+xAxis: X-axis configuration.
+yAxis: Y-axis configuration, supports multiple axes.
+Data Series
+series: Array of data series with individual settings and data points.
+Interactivity
+tooltip: Customizable tooltip options.
+legend: Legend settings to explain data series.
+Plot Options
+plotOptions: Styling and behavior settings for series types.
+Utilities
+credits: Highcharts trademark label configuration.
+colors: Color palette definition.
+labels: Additional chart labels.
+Advanced Features
+responsive: Settings for responsive chart design.
+exporting: Export options to various formats.
+navigation: Buttons and menu items configuration for exporting.
+Special Features
+annotations: Add shapes or text annotations.
+drilldown: Enables drilldown for detailed data views.
+Performance
+boost: Settings for efficient rendering of large datasets.
+Examples
+Examples of various chart configurations can be found in the examples directory. Each script demonstrates different features and customization options available in Highchart.
 
-### Utilities
-- **credits**: Configuration for the credits label that shows the Highcharts trademark.
-- **colors**: Defines the color palette for the series in the chart.
-- **labels**: Allows placing additional labels anywhere in the chart.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Advanced Features
-- **responsive**: Settings for responsive behavior of the chart across different devices and screen sizes.
-- **exporting**: Options to enable and configure the exporting of the chart to various formats.
-- **navigation**: Used primarily for configuring buttons and menu items related to exporting.
+Contributing
+Contributions are welcome! Please see the CONTRIBUTING file for more information.
 
-### Special Features
-- **annotations**: Tools to add shapes or text annotations directly on the chart.
-- **drilldown**: Enables the drilldown feature which allows viewing detailed data by clicking on chart elements.
+Acknowledgements
+Special thanks to the Highcharts team for their amazing charting library.
 
-### Performance
-- **boost**: Settings to enable and configure the boost module for rendering large datasets efficiently.
-
+For more detailed documentation, visit the Highcharts API Reference.
